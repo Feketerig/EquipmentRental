@@ -1,0 +1,8 @@
+.idea
+.gradle
+/build
+/composeApp/build
+/ios/build
+/server/build
+/web/build
+/shared/build
