@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     application
+    kotlin("plugin.serialization")
 }
 
 group = "hu.levente.fazekas"
@@ -14,14 +15,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
-    implementation("io.ktor:ktor-server-netty:2.0.1")
-    implementation("io.ktor:ktor-server-html-builder-jvm:2.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
-}
-
-tasks.test {
-    useJUnitPlatform()
+    implementation(project(":shared"))
+    implementation("io.ktor:ktor-serialization:1.6.7")
+    implementation("io.ktor:ktor-server-core:1.6.7")
+    implementation("io.ktor:ktor-server-netty:1.6.7")
+    implementation("io.ktor:ktor-auth:1.6.7")
+    implementation("io.ktor:ktor-auth-jwt:1.6.7")
+    implementation("ch.qos.logback:logback-classic:1.2.10")
+    implementation("org.litote.kmongo:kmongo-coroutine-serialization:4.5.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -30,4 +31,8 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("hu.levente.fazekas.server.ServerKt")
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

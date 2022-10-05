@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("plugin.serialization")
 }
 
 group = "hu.levente.fazekas"
@@ -30,7 +31,14 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                implementation("io.ktor:ktor-client-core:1.6.7")
+                implementation("com.soywiz.korlibs.krypto:krypto:2.4.12")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))

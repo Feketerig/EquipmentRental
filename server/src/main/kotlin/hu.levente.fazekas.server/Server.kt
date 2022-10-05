@@ -1,30 +1,53 @@
 package hu.levente.fazekas.server
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.*
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.html.*
-import io.ktor.server.http.content.*
-import io.ktor.server.netty.Netty
-import io.ktor.server.routing.*
-import kotlinx.html.*
+import hu.bme.aut.application.backend.utils.getDeviceBackend
+import hu.bme.aut.application.backend.utils.getLeaseBackend
+import hu.bme.aut.application.backend.utils.getReservationBackend
+import hu.bme.aut.application.backend.utils.getUserBackend
+import hu.bme.aut.application.database.MongoDB
+import hu.bme.aut.application.routing.*
+import hu.bme.aut.application.security.configureSecurity
+import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.http.content.*
+import io.ktor.routing.*
+import io.ktor.serialization.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import model.Device
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
 
-fun HTML.index() {
-    head {
-        title("Hello from Ktor!")
-    }
-    body {
-        div {
-            +"Hello from Ktor"
+suspend fun main() {
+    val mongoDB = MongoDB(database = KMongo.createClient().coroutine.getDatabase("eszkozkolcsonzo"))
+
+    mongoDB.addDevice(Device(1, "telefon", "valami"))
+
+    embeddedServer(Netty, 8080) {
+        install(ContentNegotiation) {
+            json()
         }
-    }
-}
+        install(CORS) {
+            method(HttpMethod.Get)
+            method(HttpMethod.Post)
+            method(HttpMethod.Delete)
+            anyHost()
+        }
+        install(Compression) {
+            gzip()
+        }
+        configureSecurity()
+        install(Routing) {
+            deviceApi(getDeviceBackend(mongoDB))
+            leaseApi(getLeaseBackend(mongoDB))
+            reservationApi(getReservationBackend(mongoDB))
+            userApi(getUserBackend(mongoDB))
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
-        routing {
-            get("/") {
-                call.respondHtml(HttpStatusCode.OK, HTML::index)
+            pages()
+
+            static("/") {
+                resources("")
             }
         }
     }.start(wait = true)
