@@ -6,7 +6,7 @@ import hu.bme.aut.application.backend.utils.Result
 import hu.bme.aut.application.backend.utils.Success
 import hu.bme.aut.application.database.Database
 import hu.bme.aut.application.database.WrongIdException
-import model.Device
+import hu.levente.fazekas.shared.model.Device
 
 class Devices(private val database: Database) {
 

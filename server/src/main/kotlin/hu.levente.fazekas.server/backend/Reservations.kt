@@ -3,8 +3,8 @@ package hu.bme.aut.application.backend
 import hu.bme.aut.application.backend.utils.*
 import hu.bme.aut.application.database.Database
 import hu.bme.aut.application.database.WrongIdException
-import model.Reservation
-import model.User
+import hu.levente.fazekas.shared.model.Reservation
+import hu.levente.fazekas.shared.model.User
 
 class Reservations(private val database: Database) {
 

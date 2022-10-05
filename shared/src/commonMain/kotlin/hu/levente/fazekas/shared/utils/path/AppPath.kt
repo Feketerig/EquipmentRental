@@ -1,4 +1,4 @@
-package utils.path
+package hu.levente.fazekas.shared.utils.path
 
 object AppPath {
     val devices: String

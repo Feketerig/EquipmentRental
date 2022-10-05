@@ -5,7 +5,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
-import utils.path.AppPath
+import hu.levente.fazekas.shared.utils.path.AppPath
 
 fun Application.pages() {
     routing {

@@ -33,10 +33,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-client-serialization:1.6.7")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
-                implementation("io.ktor:ktor-client-core:1.6.7")
                 implementation("com.soywiz.korlibs.krypto:krypto:2.4.12")
+                implementation("io.ktor:ktor-client-logging:1.6.7")
+                implementation("io.github.aakira:napier:2.3.0")
             }
         }
         val commonTest by getting {
@@ -44,7 +45,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-okhttp:1.6.7")
+            }
+        }
         val jvmTest by getting
         val androidMain by getting {
             dependencies {
@@ -80,5 +85,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+buildscript{
+    dependencies{
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
     }
 }

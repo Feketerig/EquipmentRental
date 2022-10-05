@@ -4,10 +4,10 @@ import hu.bme.aut.application.backend.utils.*
 import hu.bme.aut.application.database.Database
 import hu.bme.aut.application.database.WrongIdException
 import hu.bme.aut.application.security.JwtConfig
-import model.User
-import utils.validators.isValidEmail
-import utils.validators.isValidNameHU
-import utils.validators.isValidPhoneNumber
+import hu.levente.fazekas.shared.model.User
+import hu.levente.fazekas.shared.utils.validators.isValidEmail
+import hu.levente.fazekas.shared.utils.validators.isValidNameHU
+import hu.levente.fazekas.shared.utils.validators.isValidPhoneNumber
 
 class Users(private val database: Database) {
 

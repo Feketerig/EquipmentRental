@@ -1,16 +1,16 @@
 package hu.bme.aut.application.database
 
 import kotlinx.serialization.Serializable
-import model.Device
-import model.Lease
-import model.Reservation
-import model.User
+import hu.levente.fazekas.shared.model.Device
+import hu.levente.fazekas.shared.model.Lease
+import hu.levente.fazekas.shared.model.Reservation
+import hu.levente.fazekas.shared.model.User
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
 import org.litote.kmongo.upsert
-import utils.validators.rangesOverlap
+import hu.levente.fazekas.shared.utils.validators.rangesOverlap
 
 class MongoDB(
     database: CoroutineDatabase

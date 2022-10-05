@@ -15,14 +15,11 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import model.Device
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
-suspend fun main() {
+fun main() {
     val mongoDB = MongoDB(database = KMongo.createClient().coroutine.getDatabase("eszkozkolcsonzo"))
-
-    mongoDB.addDevice(Device(1, "telefon", "valami"))
 
     embeddedServer(Netty, 8080) {
         install(ContentNegotiation) {

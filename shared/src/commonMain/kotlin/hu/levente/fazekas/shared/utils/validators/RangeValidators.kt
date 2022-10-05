@@ -1,4 +1,4 @@
-package utils.validators
+package hu.levente.fazekas.shared.utils.validators
 
 import kotlin.math.max
 import kotlin.math.min

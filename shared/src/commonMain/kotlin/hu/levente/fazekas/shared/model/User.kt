@@ -1,4 +1,4 @@
-package model
+package hu.levente.fazekas.shared.model
 
 import kotlinx.serialization.Serializable
 

@@ -1,9 +1,9 @@
 package hu.bme.aut.application.database
 
-import model.Device
-import model.Lease
-import model.Reservation
-import model.User
+import hu.levente.fazekas.shared.model.Device
+import hu.levente.fazekas.shared.model.Lease
+import hu.levente.fazekas.shared.model.Reservation
+import hu.levente.fazekas.shared.model.User
 
 interface Database {
 

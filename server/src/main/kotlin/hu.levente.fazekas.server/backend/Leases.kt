@@ -5,7 +5,7 @@ import hu.bme.aut.application.backend.utils.Result
 import hu.bme.aut.application.backend.utils.Success
 import hu.bme.aut.application.database.Database
 import hu.bme.aut.application.database.WrongIdException
-import model.Lease
+import hu.levente.fazekas.shared.model.Lease
 
 class Leases(private val database: Database) {
 

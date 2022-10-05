@@ -1,4 +1,4 @@
-package utils.path
+package hu.levente.fazekas.shared.utils.path
 
 object ServerApiPath {
     private const val apiPath: String = "/api"

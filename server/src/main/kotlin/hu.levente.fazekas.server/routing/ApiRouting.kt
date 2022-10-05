@@ -13,11 +13,11 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import model.Device
-import model.Lease
-import model.Reservation
-import model.User
-import utils.path.ServerApiPath
+import hu.levente.fazekas.shared.model.Device
+import hu.levente.fazekas.shared.model.Lease
+import hu.levente.fazekas.shared.model.Reservation
+import hu.levente.fazekas.shared.model.User
+import hu.levente.fazekas.shared.utils.path.ServerApiPath
 
 //TODO all these error() calls should be checked
 

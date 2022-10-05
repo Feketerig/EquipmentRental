@@ -1,4 +1,4 @@
-package utils.hash
+package hu.levente.fazekas.shared.utils.hash
 
 import com.soywiz.krypto.encoding.Base64
 import com.soywiz.krypto.sha256

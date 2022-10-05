@@ -6,7 +6,7 @@ import io.ktor.auth.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.util.pipeline.*
-import model.User.Privilege
+import hu.levente.fazekas.shared.model.User.Privilege
 
 suspend inline fun PipelineContext<Unit, ApplicationCall>.requireAccessLevel(privilege: Privilege, body: () -> Unit) {
     if (checkAccessLevel((call.authentication.principal as UserAuthPrincipal), privilege)) {
