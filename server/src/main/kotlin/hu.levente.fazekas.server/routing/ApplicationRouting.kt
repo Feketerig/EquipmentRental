@@ -1,22 +1,20 @@
-package hu.bme.aut.application.routing
+package hu.levente.fazekas.server.routing
 
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.util.pipeline.*
 import hu.levente.fazekas.shared.utils.path.AppPath
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.util.pipeline.*
 
-fun Application.pages() {
-    routing {
-        route("/") {
-            get(getDefaultPage)
-            get(AppPath.devices + "/{...}", getDefaultPage)
-            get(AppPath.leases + "/{...}", getDefaultPage)
-            get(AppPath.reservations + "/{...}", getDefaultPage)
-            get(AppPath.login + "/{...}", getDefaultPage)
-            get(AppPath.register + "/{...}", getDefaultPage)
-        }
+fun Route.pages() {
+    route("/") {
+        get(getDefaultPage)
+        get(AppPath.devices + "/{...}", getDefaultPage)
+        get(AppPath.leases + "/{...}", getDefaultPage)
+        get(AppPath.reservations + "/{...}", getDefaultPage)
+        get(AppPath.login + "/{...}", getDefaultPage)
+        get(AppPath.register + "/{...}", getDefaultPage)
     }
 }
 

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="hu.levente.fazekas.androidApp">
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+            android:name=".EquipmentRentalApplication"
+            android:label="EquipmentRental"
             android:allowBackup="false"
+            android:usesCleartextTraffic="true"
             android:supportsRtl="true">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>

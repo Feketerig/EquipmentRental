@@ -1,0 +1,30 @@
+CREATE TABLE deviceEntity(
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    desc TEXT NOT NULL
+);
+
+getAllDevices:
+SELECT *
+FROM deviceEntity;
+
+getDeviceById:
+SELECT *
+FROM deviceEntity
+WHERE id = ?;
+
+insertDevice:
+INSERT OR REPLACE
+INTO deviceEntity(
+    id,
+    name,
+    desc
+) VALUES(?, ?, ?);
+
+clearDevices:
+DELETE FROM deviceEntity;
+
+searchDevices:
+SELECT *
+FROM deviceEntity
+WHERE LOWER(name) LIKE ('%' || LOWER(:query) || '%');

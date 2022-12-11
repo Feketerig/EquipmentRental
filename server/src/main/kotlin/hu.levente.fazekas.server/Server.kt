@@ -5,16 +5,17 @@ import hu.bme.aut.application.backend.utils.getLeaseBackend
 import hu.bme.aut.application.backend.utils.getReservationBackend
 import hu.bme.aut.application.backend.utils.getUserBackend
 import hu.bme.aut.application.database.MongoDB
-import hu.bme.aut.application.routing.*
-import hu.bme.aut.application.security.configureSecurity
-import io.ktor.application.*
-import io.ktor.features.*
+import hu.levente.fazekas.server.security.configureSecurity
+import hu.levente.fazekas.server.routing.*
 import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.routing.*
-import io.ktor.serialization.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
 import io.ktor.server.engine.*
+import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.routing.*
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 
@@ -26,13 +27,10 @@ fun main() {
             json()
         }
         install(CORS) {
-            method(HttpMethod.Get)
-            method(HttpMethod.Post)
-            method(HttpMethod.Delete)
-            anyHost()
-        }
-        install(Compression) {
-            gzip()
+           allowMethod(HttpMethod.Get)
+           allowMethod(HttpMethod.Post)
+           allowMethod(HttpMethod.Delete)
+           anyHost()
         }
         configureSecurity()
         install(Routing) {

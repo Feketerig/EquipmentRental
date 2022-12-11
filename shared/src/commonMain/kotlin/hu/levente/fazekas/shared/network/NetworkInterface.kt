@@ -49,9 +49,9 @@ interface NetworkInterface {
     suspend fun getUserByEmail(email: String): User?
 
     companion object{
-        //const val BASE_URL = "http://152.66.181.19:8080"
+        const val BASE_URL = "http://192.168.1.2:8080/api"
         //const val BASE_URL = "http://10.0.2.2:8080/api"
-        const val BASE_URL = "http://0.0.0.0:8080/api"
+        //const val BASE_URL = "http://0.0.0.0:8080/api"
     }
 
     sealed class Endpoints(val url: String){

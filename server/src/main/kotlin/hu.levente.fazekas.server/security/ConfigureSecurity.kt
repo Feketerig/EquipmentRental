@@ -1,10 +1,11 @@
-package hu.bme.aut.application.security
+package hu.levente.fazekas.server.security
 
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
+import hu.bme.aut.application.security.JwtConfig
 import io.ktor.http.*
-import io.ktor.response.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.response.*
 
 fun Application.configureSecurity() {
     install(Authentication) {

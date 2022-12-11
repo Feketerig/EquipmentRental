@@ -1,19 +1,24 @@
 package hu.levente.fazekas.shared.network
 
-import hu.levente.fazekas.shared.model.*
+import hu.levente.fazekas.shared.model.Device
+import hu.levente.fazekas.shared.model.Reservation
+import hu.levente.fazekas.shared.model.User
 import hu.levente.fazekas.shared.utils.hash.sha256
 import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.request.*
-import io.ktor.client.utils.EmptyContent.headers
+import io.ktor.client.request.forms.*
+import org.koin.core.component.KoinComponent
 
 class Network(
     private val client: HttpClient
-): NetworkInterface {
+): NetworkInterface, KoinComponent {
     override suspend fun login(email: String, password: String): String {
         return try {
-            client.post<String>("${NetworkInterface.Endpoints.User.url}/login"){
-                body = "$email|${password.sha256()}"
-            }
+            client.post("${NetworkInterface.Endpoints.User.url}/login"){
+                setBody("$email|${password.sha256()}")
+            }.body<String>()
         } catch (e: Exception){
             e.printStackTrace()
             ""
@@ -22,7 +27,7 @@ class Network(
 
     override suspend fun registration(email: String, name: String, phone: String, address: String, password: String) {
         try {
-            client.post<User>(NetworkInterface.Endpoints.User.url){
+            client.submitForm(NetworkInterface.Endpoints.User.url){
                 parameter("name", name)
                 parameter("email", email)
                 parameter("phone", phone)
@@ -36,11 +41,7 @@ class Network(
 
     override suspend fun getAllDevices(): List<Device> {
         return try {
-            client.get<List<Device>>(NetworkInterface.Endpoints.Device.url){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get(NetworkInterface.Endpoints.Device.url).body()
         }catch (e: Exception){
             e.printStackTrace()
             emptyList()
@@ -49,11 +50,7 @@ class Network(
 
     override suspend fun getDevice(id: Int): Device? {
         return try {
-            client.get("${NetworkInterface.Endpoints.Device.url}/" + id.toString()){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.Device.url}/" + id.toString()).body()
         }catch (e: Exception){
             null
         }
@@ -61,12 +58,9 @@ class Network(
 
     override suspend fun addDevice(device: Device): Int {
         try {
-            client.post<Device>(NetworkInterface.Endpoints.Device.url){
+            client.submitForm(NetworkInterface.Endpoints.Device.url){
                 parameter("name",device.name)
                 parameter("desc",device.desc)
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -88,11 +82,7 @@ class Network(
 
     override suspend fun getLeaseIdByReservationId(id: Int): Int {
         return try {
-            client.get("${NetworkInterface.Endpoints.Lease.url}/reservation/$id"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.Lease.url}/reservation/$id").body()
         } catch (e: Exception){
             e.printStackTrace()
             0
@@ -101,13 +91,10 @@ class Network(
 
     override suspend fun addLease(reservationId: Int, handlerUserId: Int, requesterUserId: Int) {
         try {
-            client.post<Lease>(NetworkInterface.Endpoints.Lease.url){
+            client.submitForm(NetworkInterface.Endpoints.Lease.url){
                 parameter("resId", reservationId)
                 parameter("kiado", handlerUserId)
                 parameter("atvevo", requesterUserId)
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -124,11 +111,7 @@ class Network(
 
     override suspend fun deactivateLease(id: Int) {
         try {
-            client.put("${NetworkInterface.Endpoints.Lease.url}/$id"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.put("${NetworkInterface.Endpoints.Lease.url}/$id")
         } catch (e: Exception){
             e.printStackTrace()
         }
@@ -136,11 +119,7 @@ class Network(
 
     override suspend fun getAllReservations(): List<Reservation> {
         return try {
-            client.get(NetworkInterface.Endpoints.Reservation.url){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get(NetworkInterface.Endpoints.Reservation.url).body()
         }catch (e: Exception){
             e.printStackTrace()
             emptyList()
@@ -149,11 +128,7 @@ class Network(
 
     override suspend fun getAllReservationByUserId(id: Int): List<Reservation> {
         return try {
-            client.get("${NetworkInterface.Endpoints.Reservation.url}/user"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.Reservation.url}/user").body()
         }catch (e: Exception){
             e.printStackTrace()
             emptyList()
@@ -162,11 +137,7 @@ class Network(
 
     override suspend fun getReservationByDeviceId(id: Int): Reservation? {
         return try {
-            client.get("${NetworkInterface.Endpoints.Reservation.url}/device/$id"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.Reservation.url}/device/$id").body()
         }catch (e: Exception){
             e.printStackTrace()
             null
@@ -179,14 +150,11 @@ class Network(
 
     override suspend fun addReservation(deviceId: Int, startDate: Long, endDate: Long) {
         try {
-            client.post<Reservation>{
+            client.submitForm{
                 url(NetworkInterface.Endpoints.Reservation.url)
                 parameter("deviceid", deviceId)
                 parameter("from", startDate)
                 parameter("to", endDate)
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -200,11 +168,7 @@ class Network(
 
     override suspend fun getUserNameById(userId: Int): String {
         return try {
-            client.get("${NetworkInterface.Endpoints.User.url}/$userId/name"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.User.url}/$userId/name").body()
         } catch (e: Exception){
             e.printStackTrace()
             ""
@@ -213,11 +177,7 @@ class Network(
 
     override suspend fun getUserById(userId: Int): User? {
         return try {
-            client.get("${NetworkInterface.Endpoints.User.url}/$userId"){
-                headers {
-                    //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                }
-            }
+            client.get("${NetworkInterface.Endpoints.User.url}/$userId").body()
         } catch (e: Exception){
             e.printStackTrace()
             null
@@ -226,17 +186,16 @@ class Network(
 
     override suspend fun getUserByEmail(email: String): User? {
         return try {
-            client.get(NetworkInterface.Endpoints.User.url){
-                parameter("email",email)
-                    headers {
-                        //append(Authorization, "Bearer ${MainViewModel.state.token}")
-                    }
-            }
+            client.get(NetworkInterface.Endpoints.User.url).body()
         } catch (e: Exception){
             e.printStackTrace()
             throw e
         }
     }
 
-    companion object
+    companion object{
+        val bearerTokenStorage = mutableListOf<BearerTokens>()
+        val email: String = ""
+        val password: String = ""
+    }
 }

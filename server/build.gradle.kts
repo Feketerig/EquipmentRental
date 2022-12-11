@@ -16,12 +16,18 @@ repositories {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("io.ktor:ktor-serialization:1.6.7")
-    implementation("io.ktor:ktor-server-core:1.6.7")
-    implementation("io.ktor:ktor-server-netty:1.6.7")
-    implementation("io.ktor:ktor-auth:1.6.7")
-    implementation("io.ktor:ktor-auth-jwt:1.6.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+
+    implementation("io.ktor:ktor-server-core:2.1.3")
+    implementation("io.ktor:ktor-server-netty:2.1.3")
+    implementation("io.ktor:ktor-server-content-negotiation:2.1.3")
+    implementation("io.ktor:ktor-server-cors:2.1.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
+    implementation("io.ktor:ktor-server-auth:2.1.3")
+    implementation("io.ktor:ktor-server-auth-jwt:2.1.3")
+
     implementation("ch.qos.logback:logback-classic:1.2.10")
+
     implementation("org.litote.kmongo:kmongo-coroutine-serialization:4.5.0")
 }
 
